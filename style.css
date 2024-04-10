@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .water-level {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .tank {
+    width: 200px;
+    height: 300px;
+    border: 2px solid #000;
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  .water {
+    width: 100%;
+    background-color: blue;
+    position: absolute;
+    bottom: 0;
+  }
+  
+  #level {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  #level-value {
+    font-weight: bold;
+  }
+  

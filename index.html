@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Level Monitor</title>
+  <style>
+    meter {
+      width: 100px; /* Adjust the width of the meter as needed */
+      height: 400px; /* Adjust the height of the meter as needed */
+      transform: rotate(270deg); /* Rotate the meter to make it vertical */
+    }
+  </style>
+</head>
+<body>
+  <h1>Water Level Monitor</h1>
+  <meter id="waterLevelMeter" min="0" max="100" low="30" high="70" optimum="50" value="0"></meter>
+
+  <script>
+    const webSocket = new WebSocket('ws://192.168.247.79:3000');
+
+    webSocket.onopen = function(event) {
+      console.log('WebSocket connection established');
+    };
+
+    webSocket.onmessage = function(event) {
+      const data = event.data.split(','); // Split the received data into distance and percentage
+      const distance = parseInt(data[0]);
+      const waterLevel = calculateWaterLevel(distance);
+      updateWaterLevelMeter(waterLevel);
+      console.log('Distance received:', distance);
+      console.log('Water level calculated:', waterLevel);
+    };
+
+    webSocket.onclose = function(event) {
+      console.log('WebSocket connection closed');
+    };
+
+    function calculateWaterLevel(distance) {
+      // Calculate water level based on distance
+      // You may need to adjust this calculation based on your sensor and tank configuration
+      const maxDistance = 50; // Maximum distance expected from sensor
+      const waterLevel = ((maxDistance - distance) / maxDistance) * 100;
+      return Math.max(0, Math.min(100, waterLevel)); // Clamp value between 0 and 100
+    }
+
+    function updateWaterLevelMeter(level) {
+      const meter = document.getElementById('waterLevelMeter');
+      meter.value = level;
+    }
+  </script>
+</body>
+</html>
